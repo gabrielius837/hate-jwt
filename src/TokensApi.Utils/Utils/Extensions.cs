@@ -1,4 +1,5 @@
 using System.Security.Cryptography;
+using System.Text;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
@@ -17,10 +18,12 @@ public static class Extensions
         var pubKey = config.GetValue<string>(TokensApiPublicKey)
             ?? throw new ArgumentException($"{nameof(TokensApiPublicKey)} is missing");
 
+        var bytes = Convert.FromBase64String(pubKey);
+
         var rsa = RSA.Create();
         try
         {
-            rsa.ImportFromPem(pubKey);
+            rsa.ImportSubjectPublicKeyInfo(bytes, out _);
         }
         catch (ArgumentException ex)
         {
@@ -40,7 +43,7 @@ public static class Extensions
                 };
                 options.MapInboundClaims = false;
             });
-        
+
         services.AddAuthorization();
 
         return services;
