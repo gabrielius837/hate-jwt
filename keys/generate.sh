@@ -18,5 +18,4 @@ fi
 openssl genpkey -algorithm RSA -out "$private_key" -pkeyopt rsa_keygen_bits:2048
 openssl rsa -pubout -in "$private_key" -out "$public_key"
 cat "$private_key" | tr -d '\n' > private_key_flat.txt 
-cat "$public_key" | sed -e '1d' -e '$d' | tr -d '\n' > public_key_base64.txt 
-#cat "$public_key" | tr -d '\n' > public_key_base64.txt 
+cat "$public_key" | sed -e '1d' -e '$d' | tr -d '\n' > public_key_base64.txt

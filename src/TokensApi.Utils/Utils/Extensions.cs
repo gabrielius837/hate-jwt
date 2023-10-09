@@ -1,10 +1,12 @@
 using System.Security.Cryptography;
-using System.Text;
 
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
+
+using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace TokensApi.Utils;
 
@@ -47,5 +49,32 @@ public static class Extensions
         services.AddAuthorization();
 
         return services;
+    }
+
+    public static void AddAuthorizationHeaderInput(this SwaggerGenOptions options)
+    {
+        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        {
+            Name = "Authorization",
+            Type = SecuritySchemeType.ApiKey,
+            Scheme = Constants.JwtAuthScheme,
+            BearerFormat = "JWT",
+            In = ParameterLocation.Header,
+            Description = "Authorization header.\nEnter 'Bearer' [space] and your jwt token below.",
+        });
+        options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        {
+            {
+                new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference
+                    {
+                        Type = ReferenceType.SecurityScheme,
+                        Id = Constants.JwtAuthScheme
+                    }
+                },
+                new string[] { }
+            }
+        });
     }
 }
