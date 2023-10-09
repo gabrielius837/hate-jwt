@@ -5,7 +5,7 @@ namespace TokensApi;
 public class AuthenticationSettings : ITryBuild<AuthenticationConfig>
 {
     public long? TokenLifetime { get; set; }
-    public string? PublicKey { get; set; }
+    public string? PrivateKey { get; set; }
     public ProfileSetting[]? ProfileSettings { get; set; }
     public AuthenticationConfig? TryBuild()
     {
@@ -16,16 +16,16 @@ public class AuthenticationSettings : ITryBuild<AuthenticationConfig>
         }
         var tokenLifetime = TokenLifetime.Value;
 
-        if (string.IsNullOrWhiteSpace(PublicKey))
+        if (string.IsNullOrWhiteSpace(PrivateKey))
         {
-            Console.Error.WriteLine($"{nameof(PublicKey)} must not be null/empty/whitespace");
+            Console.Error.WriteLine($"{nameof(PrivateKey)} must not be null/empty/whitespace");
             return null;
         }
 
         var rsa = RSA.Create();
         try
         {
-            rsa.ImportFromPem(PublicKey);
+            rsa.ImportFromPem(PrivateKey);
         }
         catch (ArgumentException ex)
         {
@@ -71,14 +71,14 @@ public class AuthenticationSettings : ITryBuild<AuthenticationConfig>
 
 public class AuthenticationConfig
 {
-    public AuthenticationConfig(long tokenLifetime, RSA publicKey, ProfileConfig[] profiles)
+    public AuthenticationConfig(long tokenLifetime, RSA privateKey, ProfileConfig[] profiles)
     {
         TokenLifetime = tokenLifetime;
-        PublicKey = publicKey;
+        PrivateKey = privateKey;
         ProfileConfigs = profiles;
     }
 
     public long TokenLifetime { get; }
-    public RSA PublicKey { get; }
+    public RSA PrivateKey { get; }
     public ProfileConfig[] ProfileConfigs { get; }
 }

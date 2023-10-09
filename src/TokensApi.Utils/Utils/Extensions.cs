@@ -10,17 +10,17 @@ namespace TokensApi.Utils;
 public static class Extensions
 {
     // expecting public key in base64
-    const string TokensApiPrivateKey = nameof(TokensApiPrivateKey);
+    const string TokensApiPublicKey = nameof(TokensApiPublicKey);
 
     public static IServiceCollection AddTokensApiAuthentication(this IServiceCollection services, IConfiguration config)
     {
-        var pKey = config.GetValue<string>(TokensApiPrivateKey)
-            ?? throw new ArgumentException($"{nameof(TokensApiPrivateKey)} is missing");
+        var pubKey = config.GetValue<string>(TokensApiPublicKey)
+            ?? throw new ArgumentException($"{nameof(TokensApiPublicKey)} is missing");
 
         var rsa = RSA.Create();
         try
         {
-            rsa.ImportFromPem(pKey);
+            rsa.ImportFromPem(pubKey);
         }
         catch (ArgumentException ex)
         {

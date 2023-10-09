@@ -43,7 +43,7 @@ public class JwtWriter : IJwtWriter
         (
             new SigningCredentials
             (
-                new RsaSecurityKey(_config.PublicKey),
+                new RsaSecurityKey(_config.PrivateKey),
                 SecurityAlgorithms.RsaSha256
             )
         );
