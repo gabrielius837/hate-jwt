@@ -1,0 +1,57 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{5754E0EB-C33D-48CC-8563-BAC6D958B3C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokensApi", "src\TokensApi\TokensApi.csproj", "{80CC506E-928E-4776-808B-4975E94855FB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokensApi.Utils", "src\TokensApi.Utils\TokensApi.Utils.csproj", "{90729685-D80C-4987-BE83-B5186D4E590D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{3FC4FA89-101B-46B4-9ECB-F200E69C8432}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokensApi.Utils.Tests", "tests\TokensApi.Utils.Tests\TokensApi.Utils.Tests.csproj", "{E030F0B7-2744-46D5-BC2A-A5FE4CEECD8B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokensApi.Tests", "tests\TokensApi.Tests\TokensApi.Tests.csproj", "{6DD5D30C-E16C-4651-8B62-C4E983ACB364}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TokensApi.Example", "src\TokensApi.Example\TokensApi.Example.csproj", "{65F6FB9D-5953-4C9F-853F-B4841F0637C5}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{80CC506E-928E-4776-808B-4975E94855FB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80CC506E-928E-4776-808B-4975E94855FB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80CC506E-928E-4776-808B-4975E94855FB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80CC506E-928E-4776-808B-4975E94855FB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{90729685-D80C-4987-BE83-B5186D4E590D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{90729685-D80C-4987-BE83-B5186D4E590D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{90729685-D80C-4987-BE83-B5186D4E590D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{90729685-D80C-4987-BE83-B5186D4E590D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E030F0B7-2744-46D5-BC2A-A5FE4CEECD8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E030F0B7-2744-46D5-BC2A-A5FE4CEECD8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E030F0B7-2744-46D5-BC2A-A5FE4CEECD8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E030F0B7-2744-46D5-BC2A-A5FE4CEECD8B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6DD5D30C-E16C-4651-8B62-C4E983ACB364}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6DD5D30C-E16C-4651-8B62-C4E983ACB364}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6DD5D30C-E16C-4651-8B62-C4E983ACB364}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6DD5D30C-E16C-4651-8B62-C4E983ACB364}.Release|Any CPU.Build.0 = Release|Any CPU
+		{65F6FB9D-5953-4C9F-853F-B4841F0637C5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{65F6FB9D-5953-4C9F-853F-B4841F0637C5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{65F6FB9D-5953-4C9F-853F-B4841F0637C5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{65F6FB9D-5953-4C9F-853F-B4841F0637C5}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{80CC506E-928E-4776-808B-4975E94855FB} = {5754E0EB-C33D-48CC-8563-BAC6D958B3C1}
+		{90729685-D80C-4987-BE83-B5186D4E590D} = {5754E0EB-C33D-48CC-8563-BAC6D958B3C1}
+		{E030F0B7-2744-46D5-BC2A-A5FE4CEECD8B} = {3FC4FA89-101B-46B4-9ECB-F200E69C8432}
+		{6DD5D30C-E16C-4651-8B62-C4E983ACB364} = {3FC4FA89-101B-46B4-9ECB-F200E69C8432}
+		{65F6FB9D-5953-4C9F-853F-B4841F0637C5} = {5754E0EB-C33D-48CC-8563-BAC6D958B3C1}
+	EndGlobalSection
+EndGlobal
