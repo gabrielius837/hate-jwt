@@ -6,14 +6,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddTokensApiAuthentication(builder.Configuration);
+builder.Services.AddAuthentication(TokensApiConstants.JwtAuthScheme)
+    .AddTokensApiAuthentication(builder.Configuration);
+builder.Services.AddAuthorization(options => options.AddBackendPolicy());
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    options.AddAuthorizationHeaderInput();
-});
+builder.Services.AddSwaggerGen(options => options.AddAuthorizationHeaderInput());
 
 var app = builder.Build();
 

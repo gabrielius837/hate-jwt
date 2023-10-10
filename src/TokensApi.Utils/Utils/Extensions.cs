@@ -1,23 +1,22 @@
-using System.Net.Http.Headers;
 using System.Security.Cryptography;
 
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
 using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 
 using Swashbuckle.AspNetCore.SwaggerGen;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TokensApi.Utils;
 
 public static class Extensions
 {
-    // expecting public key in base64
     const string TokensApiPublicKey = nameof(TokensApiPublicKey);
 
-    public static IServiceCollection AddTokensApiAuthentication(this IServiceCollection services, IConfiguration config)
+    public static AuthenticationBuilder AddTokensApiAuthentication(this AuthenticationBuilder builder, IConfiguration config)
     {
         var pubKey = config.GetValue<string>(TokensApiPublicKey)
             ?? throw new ArgumentException($"{nameof(TokensApiPublicKey)} is missing");
@@ -35,31 +34,29 @@ public static class Extensions
             throw ex;
         }
 
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(options =>
+        builder.AddJwtBearer(options =>
+        {
+            options.TokenValidationParameters = new TokenValidationParameters
             {
-                options.TokenValidationParameters = new TokenValidationParameters
-                {
-                    ValidIssuer = Constants.Issuer,
-                    ValidateAudience = false,
-                    ValidateIssuerSigningKey = true,
-                    IssuerSigningKey = new RsaSecurityKey(rsa)
-                };
-                options.MapInboundClaims = false;
-            });
+                ValidIssuer = TokensApiConstants.Issuer,
+                ValidateAudience = false,
+                ValidateIssuerSigningKey = true,
+                IssuerSigningKey = new RsaSecurityKey(rsa)
+            };
+            //options.MapInboundClaims = false;
+            options.IncludeErrorDetails = true;
+        });
 
-        services.AddAuthorization();
-
-        return services;
+        return builder;
     }
 
     public static void AddAuthorizationHeaderInput(this SwaggerGenOptions options)
     {
-        options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
+        options.AddSecurityDefinition(TokensApiConstants.JwtAuthScheme, new OpenApiSecurityScheme()
         {
             Name = HeaderNames.Authorization,
             Type = SecuritySchemeType.ApiKey,
-            Scheme = Constants.JwtAuthScheme,
+            Scheme = TokensApiConstants.JwtAuthScheme,
             BearerFormat = "JWT",
             In = ParameterLocation.Header,
             Description = "Enter authorization header value in the following format:\n'Bearer {your_jwt_token}'",
@@ -72,11 +69,20 @@ public static class Extensions
                     Reference = new OpenApiReference
                     {
                         Type = ReferenceType.SecurityScheme,
-                        Id = Constants.JwtAuthScheme
+                        Id = TokensApiConstants.JwtAuthScheme
                     }
                 },
                 new string[] { }
             }
         });
+    }
+
+    public static void AddBackendPolicy(this AuthorizationOptions options)
+    {
+        options.AddPolicy
+        (
+            Scopes.BackendScope,
+            policy => policy.RequireClaim(TokensApiConstants.Scope, Scopes.BackendScope)
+        );
     }
 }

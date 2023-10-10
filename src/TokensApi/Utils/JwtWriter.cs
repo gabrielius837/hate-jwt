@@ -50,11 +50,11 @@ public class JwtWriter : IJwtWriter
 
         var payload = new JwtPayload
         {
-            [JwtRegisteredClaimNames.Iss] = Constants.Issuer,
+            [JwtRegisteredClaimNames.Iss] = TokensApiConstants.Issuer,
             [JwtRegisteredClaimNames.Sub] = profile.ClientId,
             [JwtRegisteredClaimNames.Iat] = now,
             [JwtRegisteredClaimNames.Exp] = exp,
-            ["scopes"] = profile.Scopes
+            [TokensApiConstants.Scope] = string.Join(' ', profile.Scopes)
         };
 
         var token = new JwtSecurityToken
@@ -70,6 +70,6 @@ public class JwtWriter : IJwtWriter
             return null;
         }
 
-        return new AuthenticationResponse(exp, serializedToken, Constants.JwtAuthScheme);
+        return new AuthenticationResponse(exp, serializedToken, TokensApiConstants.JwtAuthScheme);
     }
 }

@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
+using TokensApi.Utils;
+
 namespace TokensApi.Example.Controllers;
 
 [ApiController]
@@ -19,7 +21,7 @@ public class WeatherForecastController : ControllerBase
         _logger = logger;
     }
 
-    [Authorize]
+    [Authorize(AuthenticationSchemes = TokensApiConstants.JwtAuthScheme, Policy = Scopes.BackendScope)]
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {
