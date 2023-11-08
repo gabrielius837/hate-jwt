@@ -1,4 +1,4 @@
-namespace TokensApi;
+namespace TokensApi.Utils;
 
 public interface ITryBuild<T> where T : class
 {

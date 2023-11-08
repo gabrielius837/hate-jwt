@@ -21,7 +21,7 @@ public class WeatherForecastController : ControllerBase
         _logger = logger;
     }
 
-    [Authorize(AuthenticationSchemes = TokensApiConstants.JwtAuthScheme, Policy = Scopes.BackendScope)]
+    [Authorize(AuthenticationSchemes = TokensApiConstants.JwtAuthScheme, Policy = Scope.BackendScope)]
     [HttpGet(Name = "GetWeatherForecast")]
     public IEnumerable<WeatherForecast> Get()
     {

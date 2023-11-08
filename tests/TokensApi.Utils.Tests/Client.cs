@@ -10,7 +10,7 @@ public class ClientTests
     [Fact]
     public void ClientDefinitions_MustNotContainInvalidStrings()
     {
-        var clients = Clients.ClientArray;
+        var clients = Client.ClientArray;
 
         var invalidClients = clients.Where(client => string.IsNullOrWhiteSpace(client));
 
@@ -21,7 +21,7 @@ public class ClientTests
     [Fact]
     public void ClientDefinitions_MustNotContainDuplicates()
     {
-        var clients = Clients.ClientArray;
+        var clients = Client.ClientArray;
 
         // aggregate duplicates
         var cache = new Dictionary<string, int>();

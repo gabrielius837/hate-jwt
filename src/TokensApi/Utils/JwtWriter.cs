@@ -8,42 +8,42 @@ namespace TokensApi;
 
 public interface IJwtWriter
 {
-    AuthenticationResponse? IssueToken(AuthenticationRequest req);
+    AuthResponse? IssueToken(AuthRequest req);
 }
 
 public class JwtWriter : IJwtWriter
 {
     private readonly ILogger<JwtWriter> _logger;
-    private readonly AuthenticationConfig _config;
+    private readonly AuthConfig[] _configs;
     private readonly JwtSecurityTokenHandler _handler;
 
-    public JwtWriter(ILogger<JwtWriter> logger, AuthenticationConfig config)
+    public JwtWriter(ILogger<JwtWriter> logger, AuthConfig[] configs)
     {
         _logger = logger;
-        _config = config;
+        _configs = configs;
         _handler = new JwtSecurityTokenHandler();
     }
 
-    public AuthenticationResponse? IssueToken(AuthenticationRequest req)
+    public AuthResponse? IssueToken(AuthRequest req)
     {
-        var profile = _config.ProfileConfigs.FirstOrDefault(x =>
+        var config = _configs.FirstOrDefault(x =>
             x.ClientId == req.ClientId &&
             x.ClientSecret == req.ClientSecret
         );
 
-        if (profile is null)
+        if (config is null)
         {
             return null;
         }
 
         var now = DateTimeOffset.UtcNow.ToUnixTimeSeconds();
-        var exp = now + _config.TokenLifetime;
+        var exp = now + config.TokenLifetime;
 
         var header = new JwtHeader
         (
             new SigningCredentials
             (
-                new RsaSecurityKey(_config.PrivateKey),
+                new RsaSecurityKey(config.PrivateKey),
                 SecurityAlgorithms.RsaSha256
             )
         );
@@ -51,10 +51,10 @@ public class JwtWriter : IJwtWriter
         var payload = new JwtPayload
         {
             [JwtRegisteredClaimNames.Iss] = TokensApiConstants.Issuer,
-            [JwtRegisteredClaimNames.Sub] = profile.ClientId,
+            [JwtRegisteredClaimNames.Sub] = config.ClientId,
             [JwtRegisteredClaimNames.Iat] = now,
             [JwtRegisteredClaimNames.Exp] = exp,
-            [TokensApiConstants.Scope] = string.Join(' ', profile.Scopes)
+            [TokensApiConstants.Scope] = string.Join(' ', config.Scopes)
         };
 
         var token = new JwtSecurityToken
@@ -66,10 +66,15 @@ public class JwtWriter : IJwtWriter
         var serializedToken = _handler.WriteToken(token);
         if (serializedToken is null)
         {
-            _logger.LogError("failed to write token {clientId} {clientSecret}", profile.ClientId, profile.ClientSecret);
+            _logger.LogError("failed to write token {clientId} {clientSecret}", config.ClientId, config.ClientSecret);
             return null;
         }
 
-        return new AuthenticationResponse(exp, serializedToken, TokensApiConstants.JwtAuthScheme);
+        return new AuthResponse()
+        {
+            ExpiresAt = exp,
+            Token = serializedToken,
+            Scheme = TokensApiConstants.JwtAuthScheme,
+        };
     }
 }

@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
+using TokensApi.Utils;
+
 namespace TokensApi;
 
 [ApiController]
@@ -15,15 +17,8 @@ public class TokenController : ControllerBase
 
     [HttpPost]
     [Route("issue")]
-    public IActionResult Issue([FromBody] AuthenticationRequestDto dto)
+    public IActionResult Issue([FromBody] AuthRequest req)
     {
-        var req = dto.TryBuild();
-
-        if (req is null)
-        {
-            return BadRequest();
-        }
-
         var resp = _writer.IssueToken(req);
 
         return resp is null

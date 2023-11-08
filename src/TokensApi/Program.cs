@@ -1,10 +1,11 @@
 using TokensApi;
+using TokensApi.Utils;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddAuthenticationConfig(builder.Configuration);
+builder.Services.AddConfig<AuthSetting[], AuthConfig[]>(builder.Configuration, TokensApiExtensions.AuthSettings, TokensApiExtensions.TryBuildAuthConfigs);
 builder.Services.AddSingleton<IJwtWriter, JwtWriter>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle

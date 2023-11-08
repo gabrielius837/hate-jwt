@@ -1,6 +1,6 @@
 namespace TokensApi.Utils;
 
-public static class Scopes
+public static class Scope
 {
     /// <summary>
     /// Collection of valid scopes

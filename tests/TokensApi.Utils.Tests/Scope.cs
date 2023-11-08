@@ -5,12 +5,12 @@ using Xunit;
 
 namespace TokensApi.Utils.Tests;
 
-public class ScopesTests
+public class ScopeTests
 {
     [Fact]
     public void ScopeDefinitions_MustNotContainInvalidStrings()
     {
-        var scopes = Scopes.ScopeArray;
+        var scopes = Scope.ScopeArray;
 
         var invalidScopes = scopes.Where(scope => string.IsNullOrWhiteSpace(scope));
 
@@ -21,7 +21,7 @@ public class ScopesTests
     [Fact]
     public void ScopeDefinitions_MustNotContainDuplicates()
     {
-        var scopes = Scopes.ScopeArray;
+        var scopes = Scope.ScopeArray;
 
         // aggregate duplicates
         var cache = new Dictionary<string, int>();
